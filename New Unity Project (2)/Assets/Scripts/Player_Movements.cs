@@ -10,10 +10,10 @@ public class Player_Movements : MonoBehaviour
     public float MovementSpeed = 1;
     public float JumpForce = 1;
     public Animator animator;
+    public bool invincibilityFrame;
     [SerializeField] private LayerMask platforms;
-    public Transform groundCheckPoint;
-    public float groundCheckRadius;
     //private 
+   
     private Rigidbody2D _rigidbody;
     private float scale;
     private bool IsJump;
@@ -26,17 +26,18 @@ public class Player_Movements : MonoBehaviour
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
         scale = transform.localScale.x;
         boxCollider2D = transform.GetComponent<BoxCollider2D>();
+        invincibilityFrame= false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        var movement = Input.GetAxisRaw("Horizontal");
+        var movement_x = Input.GetAxisRaw("Horizontal");
+        var movement_y = Input.GetAxisRaw("Vertical");
+        transform.position += new Vector3(movement_x, 0, 0) * Time.deltaTime * MovementSpeed;
+        animator.SetFloat("Speed", Mathf.Abs(movement_x));
 
-        transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
-        animator.SetFloat("Speed", Mathf.Abs(movement));
-
-        if (movement == 0)
+        if (movement_x == 0 && movement_y == 0)
         {
             animator.SetBool("IsRun", false);
         }
@@ -44,12 +45,14 @@ public class Player_Movements : MonoBehaviour
         {
             animator.SetBool("IsRun", true);
         }
-        if (movement < 0) // Flip Sprite
+        if (movement_x < 0) // Flip Sprite
         {
+           
             transform.localScale = new Vector2(-scale, transform.localScale.y);
         }
-        if (movement > 0)
+        if (movement_x > 0)
         {
+
             transform.localScale = new Vector2(scale, transform.localScale.y);
         }
 
@@ -63,12 +66,27 @@ public class Player_Movements : MonoBehaviour
         if (IsGround())
             animator.SetBool("IsJump", false);
 
-
-
-
+        if (Input.GetKey(KeyCode.DownArrow) )
+        {
+            animator.SetBool("IsRoll", true);
+           
+        }
+        else
+        {
+            animator.SetBool("IsRoll", false);
+        }
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Roll"))
+        {
+            invincibilityFrame = true;
+        }
+        else
+        {
+            invincibilityFrame = false;
+        }
+        Debug.Log(invincibilityFrame);
     }
 
-        public bool IsGround()
+    public bool IsGround()
         {
         bool b=true;
             RaycastHit2D raycastHit2D = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0f, Vector2.down, .1f, platforms);
@@ -81,10 +99,9 @@ public class Player_Movements : MonoBehaviour
         {
             b = false;
         }
-        Debug.Log(b);
+        //Debug.Log(b);
         return b;
         }
-
 
     
 
