@@ -11,7 +11,7 @@ public class Player_Movements : MonoBehaviour
     public float JumpForce = 1;
     public Animator animator;
     public bool invincibilityFrame;
-    [SerializeField] private LayerMask platforms;
+    //[SerializeField] private LayerMask platforms;
     //private 
    
     private Rigidbody2D _rigidbody;
@@ -27,6 +27,8 @@ public class Player_Movements : MonoBehaviour
         scale = transform.localScale.x;
         boxCollider2D = transform.GetComponent<BoxCollider2D>();
         invincibilityFrame= false;
+        
+       
     }
 
     // Update is called once per frame
@@ -36,7 +38,7 @@ public class Player_Movements : MonoBehaviour
         var movement_y = Input.GetAxisRaw("Vertical");
         transform.position += new Vector3(movement_x, 0, 0) * Time.deltaTime * MovementSpeed;
         animator.SetFloat("Speed", Mathf.Abs(movement_x));
-
+        //Run animation
         if (movement_x == 0 && movement_y == 0)
         {
             animator.SetBool("IsRun", false);
@@ -45,28 +47,23 @@ public class Player_Movements : MonoBehaviour
         {
             animator.SetBool("IsRun", true);
         }
-        if (movement_x < 0) // Flip Sprite
+        // Flip Sprite
+        if (movement_x < 0)
         {
-           
             transform.localScale = new Vector2(-scale, transform.localScale.y);
         }
         if (movement_x > 0)
         {
-
             transform.localScale = new Vector2(scale, transform.localScale.y);
         }
 
-        
-        if (IsGround() && (Input.GetButtonDown("Jump")) && (Mathf.Abs(_rigidbody.velocity.y) < 0.001f))
+        //Jump animation
+        if ((Input.GetButtonDown("Jump")) && (Mathf.Abs(_rigidbody.velocity.y) < 0.001f))
         {
             _rigidbody.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
         }
-        if (!IsGround())
-           animator.SetBool("IsJump", true);
-        if (IsGround())
-            animator.SetBool("IsJump", false);
-
-        if (Input.GetKey(KeyCode.DownArrow) )
+        //Roll animation
+        if (Input.GetKey(KeyCode.E))
         {
             animator.SetBool("IsRoll", true);
            
@@ -83,26 +80,55 @@ public class Player_Movements : MonoBehaviour
         {
             invincibilityFrame = false;
         }
-        Debug.Log(invincibilityFrame);
+        //Debug.Log(invincibilityFrame);
+        //Guard animation
+       // bool isGuard;
+        if (Input.GetKey(KeyCode.G))
+        {
+            animator.SetBool("IsGuard", true);
+        }
+        else
+        {
+            animator.SetBool("IsGuard", false);
+        }
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Guard"))
+        {
+            MovementSpeed = 0;
+        }
+        else
+        {
+            MovementSpeed = 3;
+        }
+
     }
 
-    public bool IsGround()
+
+    /*private void OnCollisionEnter(Collision collision)
+    {
+        
+        Debug.Log(collision.gameObject.tag == "Ground");
+        if(collision.gameObject.tag == "Ground")
         {
-        bool b=true;
-            RaycastHit2D raycastHit2D = Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0f, Vector2.down, .1f, platforms);
-            //Debug.Log(raycastHit2D.collider);
-        if (raycastHit2D.collider != null)
-        {
-            b = true;
+            animator.SetBool("IsJump", false);
         }
-        if (raycastHit2D.collider == null)
+    }*/
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject.name == "Ground");
+        if(collision.gameObject.name == "Ground")
         {
-            b = false;
-        }
-        //Debug.Log(b);
-        return b;
+            animator.SetBool("IsJump", false);
         }
 
-    
 
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject.name == "Ground");
+        if (collision.gameObject.name == "Ground")
+        {
+            animator.SetBool("IsJump", true);
+        }
+    }
 }
