@@ -63,10 +63,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\FlipBlock.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\ColorSwap\ColorSwap_HeroKnight.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\DestroyEvent_HeroKnight.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\HeroKnight.cs" />
     <Compile Include="Assets\Hero Knight - Pixel Art\Demo\Sensor_HeroKnight.cs" />
+    <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
+    <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
     <Compile Include="Assets\RockVR\Common\Scripts\EventDelegate.cs" />
     <Compile Include="Assets\RockVR\Common\Scripts\FPSDisplay.cs" />
     <Compile Include="Assets\RockVR\Common\Scripts\Platform.cs" />
@@ -83,9 +91,17 @@
     <Compile Include="Assets\RockVR\Video\Scripts\VideoCapture.cs" />
     <Compile Include="Assets\RockVR\Video\Scripts\VideoCaptureCtrl.cs" />
     <Compile Include="Assets\RockVR\Video\Scripts\VideoPlayer.cs" />
-    <Compile Include="Assets\Scripts\Enemy.cs" />
-    <Compile Include="Assets\Scripts\PlayerAttack.cs" />
-    <Compile Include="Assets\Scripts\Player_Movements.cs" />
+    <Compile Include="Assets\Scripts\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Enemys\Agro.cs" />
+    <Compile Include="Assets\Scripts\Enemys\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Enemys\EnemyAttackPoint.cs" />
+    <Compile Include="Assets\Scripts\Enemys\Patrol.cs" />
+    <Compile Include="Assets\Scripts\Player\HealthBar.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerAttack.cs" />
+    <Compile Include="Assets\Scripts\Player\Player_Movements.cs" />
+    <Compile Include="Assets\Scripts\Player\Player_Stats.cs" />
+    <Compile Include="Assets\Scripts\Player\StaminaBar.cs" />
+    <Compile Include="Assets\Scripts\Weapons.cs" />
     <None Include="Assets\RockVR\Video\Shaders\Cubemap2Equirectangular.shader" />
     <None Include="Assets\Gothicvania Cemetery Artwork\about.txt" />
     <None Include="Assets\RockVR\Video\Shaders\CopyReverse.shader" />
